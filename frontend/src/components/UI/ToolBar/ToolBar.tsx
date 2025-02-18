@@ -44,7 +44,7 @@ const ToolBar = () => {
                   color: 'white',
                   textDecoration: 'none',
                   fontWeight: 'bold',
-                  fontSize: '50px',
+                  fontSize: '40px',
                 }}
                 to={'/'}>
                 Cocktail
