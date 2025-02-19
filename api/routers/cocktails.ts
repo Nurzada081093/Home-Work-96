@@ -4,8 +4,17 @@ import auth, {RequestWithUser} from "../middleware/auth";
 import permit from "../middleware/permit";
 import {Error} from "mongoose";
 import {imagesUpload} from "../multer";
+import {Ingredient} from "../types";
 
 const cocktailsRouter = express.Router();
+
+const cocktailIngredients = (ingredients: string) => {
+    try {
+        return JSON.parse(ingredients) as Ingredient[];
+    } catch {
+        return [];
+    }
+};
 
 cocktailsRouter.get('/', async (_req, res, next) => {
     try {
@@ -39,6 +48,7 @@ cocktailsRouter.get('/:id', async (req, res, next) => {
 cocktailsRouter.post('/', imagesUpload.single('image'), auth, async (req, res, next) => {
     let expressReq = req as RequestWithUser;
     const userId = expressReq.user._id;
+    const ingredients = cocktailIngredients(req.body.ingredients);
 
     try {
         const cocktail = new Cocktail({
@@ -46,7 +56,7 @@ cocktailsRouter.post('/', imagesUpload.single('image'), auth, async (req, res, n
             title: req.body.title,
             image: req.file && 'images' + req.file.filename,
             recipe: req.body.recipe,
-            ingredients: null
+            ingredients,
         });
         await cocktail.save();
         res.send(cocktail);
@@ -95,11 +105,21 @@ cocktailsRouter.delete("/:id", auth, permit('admin'), async (req, res, next) => 
             return;
         }
 
+        if (user._id.toString() === cocktail.user._id.toString()) {
+            if (cocktail.isPublished === false) {
+                await cocktail.deleteOne();
+                res.send({message: "This cocktail was successfully deleted by the user!"});
+                return;
+            }
+        }
+
         if (user.role === 'admin') {
             await cocktail.deleteOne();
             res.send({message: "This cocktail was successfully deleted by admin!"});
             return;
         }
+
+        res.status(403).send({error: 'You aren\'t an admin! You don\'t have access to delete this cocktail!'});
 
     } catch (error) {
         next(error);

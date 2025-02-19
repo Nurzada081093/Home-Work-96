@@ -40,3 +40,25 @@ export interface ValidationError {
 export interface GlobalError {
   error: string;
 }
+
+export interface IIngredient {
+  ingredientName: string;
+  amount: string;
+}
+
+export interface ICocktailForm {
+  title: string;
+  recipe: string;
+  image: File| null,
+  ingredients: IIngredient[];
+}
+
+export interface ICocktail {
+  _id: string;
+  user: IUser;
+  title: string;
+  recipe: string;
+  image: string,
+  isPublished: boolean;
+  ingredients: IIngredient[];
+}

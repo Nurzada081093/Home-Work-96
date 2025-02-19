@@ -35,7 +35,7 @@ const UserMenu:React.FC<Props> = ({user}) => {
   return (
     <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0'}}>
       {user && (
-        <Typography component="h1" variant="h5">
+        <Typography sx={{fontSize: '20px'}}>
           {user.displayName}
         </Typography>
       )}
@@ -57,6 +57,7 @@ const UserMenu:React.FC<Props> = ({user}) => {
         {user && user.role === 'admin' && <MenuItem onClick={() => {
           navigate('/admin');setAnchorEl(null);
         }}>Admin</MenuItem>}
+        <MenuItem onClick={() => navigate('/newCocktail')}>Add new cocktail</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Box>

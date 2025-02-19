@@ -7,3 +7,8 @@ export interface UserData {
     googleId: string;
     avatar: string | null;
 }
+
+export interface Ingredient {
+    ingredientName: string;
+    amount: string;
+}
