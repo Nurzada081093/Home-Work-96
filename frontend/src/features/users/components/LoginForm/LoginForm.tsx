@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Alert, CircularProgress } from '@mui/material';
+import { Alert, Avatar, CircularProgress } from '@mui/material';
 import { UserLogin } from '../../../../types';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks.ts';
 import { loginErrorFromSlice, loginLoadingFromSlice } from '../../usersSlice.ts';
 import { toast } from 'react-toastify';
 import { GoogleLogin } from '@react-oauth/google';
 import { googleLoginOrRegisterUser } from '../../usersThunk.ts';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 interface Props {
   login: (user: UserLogin) => void;
@@ -44,7 +43,7 @@ const LoginForm: React.FC<Props> = ({login}) => {
   const submitUser = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (loginForm.email.trim().length === 0 && loginForm.password.trim().length === 0) {
+    if (loginForm.email.trim().length === 0 || loginForm.password.trim().length === 0) {
       toast.error("Fill in the email and password!");
     } else {
       login({...loginForm});
@@ -60,12 +59,10 @@ const LoginForm: React.FC<Props> = ({login}) => {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 4,
+          // marginTop: 4,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: 'rgba(245,245,245,0.75)',
-          borderRadius: '10px',
           padding: '30px 0',
         }}
       >
@@ -87,13 +84,13 @@ const LoginForm: React.FC<Props> = ({login}) => {
             }
           })} onError={() => alert('Login failed!')}/>
         </Box>
-        <Box component="form" noValidate onSubmit={submitUser} sx={{ mt: 3 }}>
+        <Box component="form" noValidate onSubmit={submitUser} sx={{mt: 3}}>
           <Grid container direction={'column'} spacing={2}>
             <Grid size={12}>
               <TextField
                 fullWidth
                 id="email"
-                label="email"
+                label="Email"
                 name="email"
                 onChange={onChangeUser}
               />
@@ -114,10 +111,10 @@ const LoginForm: React.FC<Props> = ({login}) => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{mt: 2, mb: 2}}
           >
             Sign In
-            {loading ?  <CircularProgress size="30px" sx={{marginLeft: '20px'}}/> : null}
+            {loading ? <CircularProgress size="30px" sx={{marginLeft: '20px'}}/> : null}
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid size={12}>

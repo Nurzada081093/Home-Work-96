@@ -28,11 +28,13 @@ const ToolBar = () => {
           >
             <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <IconButton
+                component={NavLink}
                 size="large"
                 edge="start"
                 color="inherit"
                 aria-label="menu"
                 sx={{mr: 2}}
+                to={'/'}
               >
                 <img style={{width: '80px', height: '80px'}} src={logo} alt="logo"/>
               </IconButton>
@@ -41,10 +43,18 @@ const ToolBar = () => {
                 component={NavLink}
                 sx={{
                   flexGrow: 1,
-                  color: 'white',
-                  textDecoration: 'none',
+                  color: 'transparent',
+                  backgroundImage: 'linear-gradient(to right, #f83600, #f9d423)',
+                  WebkitBackgroundClip: 'text',
                   fontWeight: 'bold',
                   fontSize: '40px',
+                  textDecoration: 'none',
+                  transition: 'all 0.3s ease-in-out',
+                  '&:hover': {
+                    backgroundPosition: 'right center',
+                    color: '#fff',
+                    textShadow: '0px 0px 15px rgba(255, 255, 255, 0.8)',
+                  },
                 }}
                 to={'/'}>
                 Cocktail

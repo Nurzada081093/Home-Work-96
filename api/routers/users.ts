@@ -89,7 +89,7 @@ userRouter.post("/sessions", async (req, res, next) => {
         const user = await User.findOne({email: req.body.email});
 
         if (!user) {
-            res.status(400).send({error: "This user email not found!"});
+            res.status(400).send({error: "This email not found!"});
             return;
         }
 

@@ -31,7 +31,13 @@ const usersSlice = createSlice({
   reducers: {
     clearUser: (state) => {
       state.user = null;
-    }
+    },
+    clearLoginError: (state) => {
+      state.errorToLogin = null;
+    },
+    clearRegisterError: (state) => {
+      state.errorToRegister = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -78,5 +84,5 @@ const usersSlice = createSlice({
 });
 
 export const usersReducer = usersSlice.reducer;
-export const {clearUser} = usersSlice.actions;
+export const {clearUser, clearLoginError, clearRegisterError} = usersSlice.actions;
 

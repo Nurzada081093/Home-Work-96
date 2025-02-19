@@ -88,19 +88,17 @@ const RegisterForm: React.FC<Props> = ({register}) => {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 2,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: 'rgba(245,245,245,0.75)',
           borderRadius: '10px',
-          padding: '30px 0',
+          padding: '15px 0',
         }}
       >
         <Avatar sx={{ bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h4" variant="h5">
           Sign up
         </Typography>
         <Box sx={{pt: 2}}>
@@ -110,11 +108,10 @@ const RegisterForm: React.FC<Props> = ({register}) => {
             }
           })} onError={() => alert('Login failed!')}/>
         </Box>
-        <Box component="form" noValidate onSubmit={submitUser} sx={{ mt: 3, width: '80%' }}>
-          <Grid container direction={'column'} spacing={2}>
+        <Box component="form" noValidate onSubmit={submitUser} sx={{ mt: 2, width: '80%' }}>
+          <Grid container direction={'column'} spacing={1.5}>
             <Grid size={12}>
               <TextField
-                sx={{}}
                 type="email"
                 fullWidth
                 id="email"

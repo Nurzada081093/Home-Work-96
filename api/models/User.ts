@@ -11,22 +11,30 @@ interface UserMethods {
 type UserModel = Model<UserData, {}, UserMethods>;
 
 const Schema = mongoose.Schema;
-
-const  HASHING_PASSWORD = 10;
+const HASHING_PASSWORD = 10;
+const regexEmail = /^(\w+[-.]?\w+)@(\w+)([.-]?\w+)?(\.[a-zA-Z]{2,3})$/;
 
 const UserSchema = new Schema<HydratedDocument<UserData>, UserModel, UserMethods>({
     email: {
         type: String,
         required: [true, 'Email is required'],
         unique: true,
-        validate: {
-            validator: async function (this:HydratedDocument<UserData> , value: string): Promise<boolean> {
-                if (!this.isModified('email')) return true;
-                const user: UserData | null = await User.findOne({email: value});
-                return !user;
+        validate: [
+            {
+                validator: async function (this:HydratedDocument<UserData> , value: string): Promise<boolean> {
+                    if (!this.isModified('email')) return true;
+                    const user: UserData | null = await User.findOne({email: value});
+                    return !user;
+                },
+                message: 'This email is already taken!',
             },
-            message: 'This email is already in taken!',
-        },
+            {
+                validator: async function (this: HydratedDocument<UserData>, value: string): Promise<boolean> {
+                    return regexEmail.test(value);
+                },
+                message: "Invalid email format",
+            },
+        ]
     },
     password: {
         type: String,
