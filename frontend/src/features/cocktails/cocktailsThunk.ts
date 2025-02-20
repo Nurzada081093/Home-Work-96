@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ICocktailForm, ValidationError } from '../../types';
+import { ICocktail, ICocktailForm, ValidationError } from '../../types';
 import axiosRequest from '../../axiosRequest.ts';
 import { isAxiosError } from 'axios';
 
@@ -27,3 +27,18 @@ export const addCocktail = createAsyncThunk<void, {cocktail: ICocktailForm, toke
   },
 );
 
+export const getCocktails = createAsyncThunk<ICocktail[], void>(
+  'cocktails/getCocktails',
+  async () => {
+    const response = await axiosRequest(`/cocktails`);
+    return response.data || [];
+  }
+);
+
+export const getUserCocktails = createAsyncThunk<ICocktail[], string>(
+  'cocktails/getUserCocktails',
+  async (cocktailId) => {
+    const response = await axiosRequest(`/cocktails?user=${cocktailId}`);
+    return response.data || [];
+  }
+);

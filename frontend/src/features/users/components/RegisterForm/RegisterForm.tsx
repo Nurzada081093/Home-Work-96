@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { UserRegister } from '../../../../types';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks.ts';
@@ -163,13 +163,6 @@ const RegisterForm: React.FC<Props> = ({register}) => {
             Sign Up
             {loading ?  <CircularProgress size="30px" sx={{marginLeft: '20px'}}/> : null}
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid size={12}>
-              <NavLink to={'/login'}>
-                Already have an account? Sign in
-              </NavLink>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>

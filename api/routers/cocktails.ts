@@ -16,9 +16,12 @@ const cocktailIngredients = (ingredients: string) => {
     }
 };
 
-cocktailsRouter.get('/', async (_req, res, next) => {
+cocktailsRouter.get('/', async (req, res, next) => {
+    const userIdQuery = req.query.user;
+
     try {
-        const cocktails = await Cocktail.find();
+        const filter = userIdQuery ? {user: userIdQuery} : {};
+        const cocktails = await Cocktail.find(filter).populate('user', '_id displayName avatar role');
         res.send(cocktails);
     } catch (e) {
         next(e);

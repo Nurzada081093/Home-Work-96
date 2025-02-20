@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Alert, Avatar, CircularProgress } from '@mui/material';
 import { UserLogin } from '../../../../types';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks.ts';
@@ -116,13 +116,6 @@ const LoginForm: React.FC<Props> = ({login}) => {
             Sign In
             {loading ? <CircularProgress size="30px" sx={{marginLeft: '20px'}}/> : null}
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid size={12}>
-              <NavLink to={'/register'}>
-                No account yet? Sign Up
-              </NavLink>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>
