@@ -95,7 +95,7 @@ cocktailsRouter.patch("/:id/togglePublished", auth, permit('admin'), async (req,
     }
 });
 
-cocktailsRouter.delete("/:id", auth, permit('admin'), async (req, res, next) => {
+cocktailsRouter.delete("/:id", auth, permit('admin', 'user'), async (req, res, next) => {
     let expressReq = req as RequestWithUser;
     const user = expressReq.user;
     const cocktailId = expressReq.params.id;

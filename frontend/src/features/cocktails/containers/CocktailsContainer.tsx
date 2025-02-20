@@ -6,15 +6,22 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import CocktailCards from '../components/CocktailCards/CocktailCards.tsx';
 import { Typography } from '@mui/joy';
+import { userFromSlice } from '../../users/usersSlice.ts';
+import { useNavigate } from 'react-router-dom';
 
 const CocktailsContainer = () => {
   const cocktails = useAppSelector(cocktailsFromSlice);
-  // const user = useAppSelector(userFromSlice);
+  const user = useAppSelector(userFromSlice);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getCocktails());
   }, [dispatch]);
+
+  if (user && user.role === 'admin') {
+    navigate('/admin');
+  }
 
   return (
     <Container>

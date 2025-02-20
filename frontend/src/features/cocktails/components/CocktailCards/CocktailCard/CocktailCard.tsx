@@ -33,21 +33,6 @@ const CocktailCard:React.FC<Props> = ({cocktail}) => {
           '& > *': { minWidth: 'clamp(0px, (360px - 100%) * 999,100%)' },
         })}
       >
-        <AspectRatio
-          variant="soft"
-          sx={{
-            flexGrow: 1,
-            display: 'contents',
-            '--AspectRatio-paddingBottom':
-              'clamp(0px, (100% - 360px) * 999, min(calc(100% / (16 / 9)), 300px))',
-          }}
-        >
-          <img
-            src="https://images.unsplash.com/photo-1492305175278-3b3afaa2f31f?auto=format&fit=crop&w=2000"
-            loading="lazy"
-            alt=""
-          />
-        </AspectRatio>
         <Box
           sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 200 }}
         >
@@ -82,12 +67,12 @@ const CocktailCard:React.FC<Props> = ({cocktail}) => {
           </AspectRatio>
           <Box sx={{ display: 'flex', gap: 1.5, mt: 'auto' }}>
             <Avatar
+              size="md"
               alt={cocktail.user.displayName}
               src={cocktail.user.googleId === null ? apiUrl + '/' + cocktail.user.avatar
                 : cocktail.user.avatar && cocktail.user.avatar.startsWith('http')
                   ? cocktail.user.avatar
                   : apiUrl + '/' + cocktail.user.avatar}
-              size="md"
             />
             <div>
               <Typography level="body-xs">Created by {cocktail.user.role}</Typography>

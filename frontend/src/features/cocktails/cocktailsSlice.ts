@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICocktail } from '../../types';
-import { addCocktail, getCocktails, getUserCocktails } from './cocktailsThunk.ts';
+import { addCocktail, deleteCocktail, getCocktails, getUserCocktails, publishCocktail } from './cocktailsThunk.ts';
 import { RootState } from '../../app/store.ts';
 
 interface initialCocktailState {
@@ -72,6 +72,30 @@ const cocktailsSlice = createSlice({
       })
       .addCase(getUserCocktails.rejected, (state) => {
         state.loadings.getLoading = false;
+        state.error = true;
+      })
+      .addCase(deleteCocktail.pending, (state) => {
+        state.loadings.deleteLoading = true;
+        state.error = false;
+      })
+      .addCase(deleteCocktail.fulfilled, (state) => {
+        state.loadings.deleteLoading = false;
+        state.error = false;
+      })
+      .addCase(deleteCocktail.rejected, (state) => {
+        state.loadings.deleteLoading = false;
+        state.error = true;
+      })
+      .addCase(publishCocktail.pending, (state) => {
+        state.loadings.editLoading = true;
+        state.error = false;
+      })
+      .addCase(publishCocktail.fulfilled, (state) => {
+        state.loadings.editLoading = false;
+        state.error = false;
+      })
+      .addCase(publishCocktail.rejected, (state) => {
+        state.loadings.editLoading = false;
         state.error = true;
       });
   }

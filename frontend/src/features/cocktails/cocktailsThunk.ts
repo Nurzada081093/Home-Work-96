@@ -42,3 +42,17 @@ export const getUserCocktails = createAsyncThunk<ICocktail[], string>(
     return response.data || [];
   }
 );
+
+export const deleteCocktail = createAsyncThunk<void, {cocktailId: string, token: string}>(
+  'cocktails/deleteCocktail',
+  async ({cocktailId, token}) => {
+    await axiosRequest.delete(`/cocktails/${cocktailId}`, {headers: {'Authorization': token}});
+  }
+);
+
+export const publishCocktail = createAsyncThunk<void, {cocktailId: string, token: string}>(
+  'cocktails/publishCocktail',
+  async ({cocktailId, token}) => {
+    await axiosRequest.patch(`/cocktails/${cocktailId}/togglePublished`, {headers: {'Authorization': token}});
+  }
+);

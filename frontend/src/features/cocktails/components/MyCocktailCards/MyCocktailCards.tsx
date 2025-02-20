@@ -9,7 +9,12 @@ interface Props {
 
 const MyCocktailCards:React.FC<Props> = ({cocktails}) => {
   return (
-    <Box sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', flexWrap: 'wrap', margin: '40px 0'}}>
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      margin: '40px 0'}}>
       {cocktails.map((cocktail) => (
         <MyCocktailCard cocktail={cocktail} key={cocktail._id}/>
       ))}

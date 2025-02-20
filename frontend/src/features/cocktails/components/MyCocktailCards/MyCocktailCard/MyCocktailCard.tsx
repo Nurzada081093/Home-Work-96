@@ -8,13 +8,30 @@ import CardCover from '@mui/joy/CardCover';
 import Chip from '@mui/joy/Chip';
 import Typography from '@mui/joy/Typography';
 import { apiUrl } from '../../../../../globalConstants.ts';
+import { useAppDispatch, useAppSelector } from '../../../../../app/hooks.ts';
+import { userFromSlice } from '../../../../users/usersSlice.ts';
+import { deleteCocktail, getUserCocktails } from '../../../cocktailsThunk.ts';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   cocktail: ICocktail;
 }
 
 const MyCocktailCard:React.FC<Props> = ({cocktail}) => {
-  console.log(cocktail);
+  const user = useAppSelector(userFromSlice);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const deleteTheCocktail = async (cocktailId: string) => {
+    if (user && user._id === cocktail.user._id) {
+      await dispatch(deleteCocktail({cocktailId, token: user.token})).unwrap();
+      await dispatch(getUserCocktails(user._id));
+      toast.success('Cocktail was successfully deleted!');
+      navigate(`/myCocktails`);
+    }
+  };
+
   return (
     <Card
       variant="plain"
@@ -99,6 +116,7 @@ const MyCocktailCard:React.FC<Props> = ({cocktail}) => {
           {cocktail.user.displayName}
         </Typography>
         <Chip
+          onClick={() => deleteTheCocktail(cocktail._id)}
           variant="outlined"
           color="neutral"
           size="sm"

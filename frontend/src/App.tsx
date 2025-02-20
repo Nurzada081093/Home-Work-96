@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.tsx';
 import { useAppSelector } from './app/hooks.ts';
 import { userFromSlice } from './features/users/usersSlice.ts';
 import MyCocktailsContainer from './features/cocktails/containers/MyCocktailsContainer.tsx';
+import AdminCocktailContainer from './features/cocktails/containers/AdminCocktailContainer.tsx';
 
 const App = () => {
   const user = useAppSelector(userFromSlice);
@@ -23,6 +24,11 @@ const App = () => {
         <Route path="/newCocktail" element={
           <ProtectedRoute isAllowed={user && (user.role === 'admin' || user.role === 'user')}>
             <NewCocktailContainer/>
+          </ProtectedRoute>
+        }/>
+        <Route path="/admin" element={
+          <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+            <AdminCocktailContainer/>
           </ProtectedRoute>
         }/>
         <Route path="*" element={

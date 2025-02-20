@@ -1,13 +1,13 @@
 import { ICocktail } from '../../../../types';
-import React from 'react';
-import CocktailCard from './CocktailCard/CocktailCard.tsx';
 import Box from '@mui/joy/Box';
+import React from 'react';
+import AdminCocktailCard from './AdminCocktailCard/AdminCocktailCard.tsx';
 
 interface Props {
   cocktails: ICocktail[];
 }
 
-const CocktailCards:React.FC<Props> = ({cocktails}) => {
+const AdminCocktailCards:React.FC<Props> = ({cocktails}) => {
   return (
     <Box sx={{
       display: 'flex',
@@ -17,10 +17,10 @@ const CocktailCards:React.FC<Props> = ({cocktails}) => {
       margin: '40px 0'
     }}>
       {cocktails.map((cocktail) => (
-        <CocktailCard cocktail={cocktail} key={cocktail._id}/>
+        <AdminCocktailCard cocktail={cocktail} key={cocktail._id}/>
       ))}
     </Box>
   );
 };
 
-export default CocktailCards;
+export default AdminCocktailCards;
