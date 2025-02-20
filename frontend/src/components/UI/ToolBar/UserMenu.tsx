@@ -55,9 +55,17 @@ const UserMenu:React.FC<Props> = ({user}) => {
         onClose={handleClose}
       >
         {user && user.role === 'admin' && <MenuItem onClick={() => {
-          navigate('/admin');setAnchorEl(null);
+          navigate('/admin');
+          setAnchorEl(null);
         }}>Admin</MenuItem>}
-        <MenuItem onClick={() => navigate('/newCocktail')}>Add new cocktail</MenuItem>
+        <MenuItem onClick={() => {
+          navigate('/newCocktail');
+          setAnchorEl(null);
+        }}>Add new cocktail</MenuItem>
+        <MenuItem onClick={() => {
+          navigate('/myCocktails');
+          setAnchorEl(null);
+        }}>My cocktails</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Box>

@@ -13,8 +13,7 @@ interface Props {
 }
 
 const CocktailCard:React.FC<Props> = ({cocktail}) => {
-  console.log(cocktail);
-  return (
+  return cocktail.isPublished && (
     <Box sx={{ minHeight: 350, margin: '20px'}}>
       <Card
         variant="outlined"
@@ -56,7 +55,6 @@ const CocktailCard:React.FC<Props> = ({cocktail}) => {
             <div>
               <Typography level="title-lg">
                 <Link
-                  href="#container-responsive"
                   overlay
                   underline="none"
                   sx={{

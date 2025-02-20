@@ -5,6 +5,7 @@ import { RootState } from '../../app/store.ts';
 
 interface initialCocktailState {
   cocktails: ICocktail[];
+  myCocktails: ICocktail[];
   loadings: {
     addLoading: boolean;
     getLoading: boolean;
@@ -16,6 +17,7 @@ interface initialCocktailState {
 
 const initialState: initialCocktailState = {
   cocktails: [],
+  myCocktails: [],
   loadings: {
     addLoading: false,
     getLoading: false,
@@ -26,6 +28,7 @@ const initialState: initialCocktailState = {
 }
 
 export const cocktailsFromSlice = (state: RootState) => state.cocktails.cocktails;
+export const myCocktailsFromSlice = (state: RootState) => state.cocktails.myCocktails;
 
 const cocktailsSlice = createSlice({
   name: 'cocktails',
@@ -65,7 +68,7 @@ const cocktailsSlice = createSlice({
       .addCase(getUserCocktails.fulfilled, (state, {payload: cocktails}) => {
         state.loadings.getLoading = false;
         state.error = false;
-        state.cocktails = cocktails;
+        state.myCocktails = cocktails;
       })
       .addCase(getUserCocktails.rejected, (state) => {
         state.loadings.getLoading = false;
