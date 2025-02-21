@@ -1,5 +1,5 @@
 import { ICocktail } from '../../../../../types';
-import React from 'react';
+import React, { useState } from 'react';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Alert from '@mui/joy/Alert';
 import AdminCocktailCard from '../../AdminCocktailCards/AdminCocktailCard/AdminCocktailCard.tsx';
+import CircularProgress from '@mui/joy/CircularProgress';
 
 interface Props {
   cocktail: ICocktail;
@@ -24,6 +25,10 @@ const MyCocktailCard:React.FC<Props> = ({cocktail}) => {
   const user = useAppSelector(userFromSlice);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [deleteLoading, setDeleteLoading] = useState<{index: string | null; loading: boolean}>({
+    index: null,
+    loading: false,
+  });
 
   const getInformationCocktail = (id: string) => {
     navigate(`/cocktail/${id}`);
@@ -31,10 +36,12 @@ const MyCocktailCard:React.FC<Props> = ({cocktail}) => {
 
   const deleteTheCocktail = async (cocktailId: string) => {
     if (user && user._id === cocktail.user._id) {
+      setDeleteLoading(prevState => ({...prevState, loading: true, index: cocktailId}));
       await dispatch(deleteCocktail({cocktailId, token: user.token})).unwrap();
       await dispatch(getUserCocktails(user._id));
       toast.success('Cocktail was successfully deleted!');
       navigate(`/myCocktails`);
+      setDeleteLoading(prevState => ({...prevState, loading: false, index: null}));
     }
   };
 
@@ -151,6 +158,7 @@ const MyCocktailCard:React.FC<Props> = ({cocktail}) => {
                 }}
               >
                 Delete
+                {deleteLoading.loading && cocktail._id === deleteLoading.index ? <CircularProgress size="sm" /> : null}
               </Chip>
             )}
           </Box>

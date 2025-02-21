@@ -5,7 +5,7 @@ import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined';
 import { ICocktail } from '../../../../../types';
-import React from 'react';
+import React, { useState } from 'react';
 import { apiUrl } from '../../../../../globalConstants.ts';
 import CardCover from '@mui/joy/CardCover';
 import Button from '@mui/joy/Button';
@@ -14,6 +14,7 @@ import { userFromSlice } from '../../../../users/usersSlice.ts';
 import { useNavigate } from 'react-router-dom';
 import { deleteCocktail, getCocktails, publishCocktail } from '../../../cocktailsThunk.ts';
 import { toast } from 'react-toastify';
+import { CircularProgress } from '@mui/joy';
 
 interface Props {
   cocktail: ICocktail;
@@ -23,6 +24,14 @@ const AdminCocktailCard:React.FC<Props> = ({cocktail}) => {
   const user = useAppSelector(userFromSlice);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [deleteLoading, setDeleteLoading] = useState<{index: string | null; loading: boolean}>({
+    index: null,
+    loading: false,
+  });
+  const [publishLoading, setPublishLoading] = useState<{index: string | null; loading: boolean}>({
+    index: null,
+    loading: false,
+  });
 
   const getInformationCocktail = (id: string) => {
     navigate(`/cocktail/${id}`);
@@ -30,19 +39,23 @@ const AdminCocktailCard:React.FC<Props> = ({cocktail}) => {
 
   const deleteTheCocktail = async (cocktailId: string) => {
     if (user && user.role === 'admin') {
+      setDeleteLoading(prevState => ({...prevState, loading: true, index: cocktailId}));
       await dispatch(deleteCocktail({cocktailId, token: user.token})).unwrap();
       await dispatch(getCocktails());
       toast.success('Cocktail was successfully deleted!');
       navigate(`/admin`);
+      setDeleteLoading(prevState => ({...prevState, loading: false, index: null}));
     }
   };
 
   const publishTheCocktail = async (cocktailId: string) => {
     if (user && user.role === 'admin') {
+      setPublishLoading(prevState => ({...prevState, loading: true, index: cocktailId}));
       await dispatch(publishCocktail({cocktailId, token: user.token})).unwrap();
       await dispatch(getCocktails());
       toast.success('Cocktail was successfully published!');
       navigate(`/admin`);
+      setPublishLoading(prevState => ({...prevState, loading: false, index: null}));
     }
   };
 
@@ -103,9 +116,11 @@ const AdminCocktailCard:React.FC<Props> = ({cocktail}) => {
             sx={{width: '120px'}}
             variant='solid'
             color="primary"
+            disabled={publishLoading.loading && cocktail._id === publishLoading.index}
             onClick={() => publishTheCocktail(cocktail._id)}
           >
             Publish
+            {publishLoading.loading && cocktail._id === publishLoading.index ? <CircularProgress size="sm" /> : null}
           </Button>
         )}
         <Button
@@ -114,9 +129,11 @@ const AdminCocktailCard:React.FC<Props> = ({cocktail}) => {
           }}
           variant='solid'
           color="danger"
+          disabled={deleteLoading.loading && cocktail._id === deleteLoading.index}
           onClick={() => deleteTheCocktail(cocktail._id)}
         >
           Delete
+          {deleteLoading.loading && cocktail._id === deleteLoading.index ? <CircularProgress size="sm" /> : null}
         </Button>
       </CardContent>
     </Card>

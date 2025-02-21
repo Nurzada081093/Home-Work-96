@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../../app/hooks.ts';
-import { myCocktailsFromSlice } from '../cocktailsSlice.ts';
+import { cocktailsLoadingFromSlice, myCocktailsFromSlice } from '../cocktailsSlice.ts';
 import { useEffect } from 'react';
 import { getUserCocktails } from '../cocktailsThunk.ts';
 import { userFromSlice } from '../../users/usersSlice.ts';
@@ -10,10 +10,12 @@ import MyCocktailCards from '../components/MyCocktailCards/MyCocktailCards.tsx';
 import Button from '@mui/joy/Button';
 import Add from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../../components/UI/Loading/Loading.tsx';
 
 const MyCocktailsContainer = () => {
   const cocktails = useAppSelector(myCocktailsFromSlice);
   const user = useAppSelector(userFromSlice);
+  const loading = useAppSelector(cocktailsLoadingFromSlice);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -25,26 +27,30 @@ const MyCocktailsContainer = () => {
 
   return (
     <Container>
-      <Box sx={{textAlign: 'end', marginTop: '30px'}}>
-        <Button
-          startDecorator={<Add />}
-          onClick={() => navigate('/newCocktail')}
-        >
-          Add new cocktail
-        </Button>
-      </Box>
-      <Typography level="h1" sx={{textAlign: 'center'}}>My cocktails</Typography>
-      <Box>
-        {cocktails.length > 0 ? <MyCocktailCards cocktails={cocktails}/>
-          :
-          <Typography
-            level="h1"
-            sx={{margin: '10%', textAlign: 'center'}}
-          >
-            No cocktails yet!
-          </Typography>
-        }
-      </Box>
+      {loading ? <Loading/> :
+        <>
+          <Box sx={{textAlign: 'end', marginTop: '30px'}}>
+            <Button
+              startDecorator={<Add />}
+              onClick={() => navigate('/newCocktail')}
+            >
+              Add new cocktail
+            </Button>
+          </Box>
+          <Typography level="h1" sx={{textAlign: 'center'}}>My cocktails</Typography>
+          <Box>
+            {cocktails.length > 0 ? <MyCocktailCards cocktails={cocktails}/>
+              :
+              <Typography
+                level="h1"
+                sx={{margin: '10%', textAlign: 'center'}}
+              >
+                No cocktails yet!
+              </Typography>
+            }
+          </Box>
+        </>
+      }
     </Container>
   );
 };

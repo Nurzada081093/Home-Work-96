@@ -12,6 +12,9 @@ import { Add } from '@mui/icons-material';
 import { Textarea } from '@mui/joy';
 import FileInput from '../../../../components/FileInput/FileInput';
 import { toast } from 'react-toastify';
+import { useAppSelector } from '../../../../app/hooks.ts';
+import { addLoadingFromSlice } from '../../cocktailsSlice.ts';
+import ButtonSpinner from '../../../../components/UI/ButtonSpinner/ButtonSpinner.tsx';
 
 interface Props {
   createNewCocktail: (cocktail: ICocktailForm) => void;
@@ -31,6 +34,7 @@ const cocktailState = {
 
 const NewCocktailForm:React.FC<Props> = ({createNewCocktail}) => {
   const [newCocktail, setNewCocktail] = useState<ICocktailForm>(cocktailState);
+  const loading = useAppSelector(addLoadingFromSlice);
 
   const onChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -55,7 +59,7 @@ const NewCocktailForm:React.FC<Props> = ({createNewCocktail}) => {
   const onSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (newCocktail.title.trim().length === 0 && newCocktail.recipe.trim().length === 0) {
+    if (newCocktail.title.trim().length === 0 || newCocktail.recipe.trim().length === 0) {
       toast.error('Fill in all fields!');
       return;
     }
@@ -125,6 +129,7 @@ const NewCocktailForm:React.FC<Props> = ({createNewCocktail}) => {
             gap: 2,
             borderRadius: 'sm',
             boxShadow: 'md',
+            backgroundColor: 'rgba(236,232,232,0.68)',
           }}
           variant="outlined"
         >
@@ -200,7 +205,14 @@ const NewCocktailForm:React.FC<Props> = ({createNewCocktail}) => {
             label="Image"
             onGetFile={fileEventChange}
           />
-          <Button sx={{textTransform: 'uppercase'}} type='submit'>Create cocktail</Button>
+          <Button
+            sx={{textTransform: 'uppercase'}}
+            type='submit'
+            disabled={loading}
+          >
+            Create cocktail
+            {loading ? <ButtonSpinner/> : null}
+          </Button>
         </Sheet>
       </main>
     </form>

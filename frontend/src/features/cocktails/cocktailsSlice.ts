@@ -41,6 +41,9 @@ const initialState: initialCocktailState = {
 export const cocktailsFromSlice = (state: RootState) => state.cocktails.cocktails;
 export const myCocktailsFromSlice = (state: RootState) => state.cocktails.myCocktails;
 export const cocktailFromSlice = (state: RootState) => state.cocktails.cocktail;
+export const addLoadingFromSlice = (state: RootState) => state.cocktails.loadings.addLoading;
+export const cocktailsLoadingFromSlice = (state: RootState) => state.cocktails.loadings.getLoading;
+export const cocktailLoadingFromSlice = (state: RootState) => state.cocktails.loadings.getCocktailLoading;
 
 const cocktailsSlice = createSlice({
   name: 'cocktails',
