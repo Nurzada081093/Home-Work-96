@@ -1,16 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICocktail } from '../../types';
-import { addCocktail, deleteCocktail, getCocktails, getUserCocktails, publishCocktail } from './cocktailsThunk.ts';
+import {
+  addCocktail,
+  deleteCocktail,
+  getCocktail,
+  getCocktails,
+  getUserCocktails,
+  publishCocktail
+} from './cocktailsThunk.ts';
 import { RootState } from '../../app/store.ts';
 
 interface initialCocktailState {
   cocktails: ICocktail[];
   myCocktails: ICocktail[];
+  cocktail: ICocktail | null;
   loadings: {
     addLoading: boolean;
     getLoading: boolean;
     deleteLoading: boolean;
     editLoading: boolean;
+    getCocktailLoading: boolean;
   },
   error: boolean;
 }
@@ -18,17 +27,20 @@ interface initialCocktailState {
 const initialState: initialCocktailState = {
   cocktails: [],
   myCocktails: [],
+  cocktail: null,
   loadings: {
     addLoading: false,
     getLoading: false,
     deleteLoading: false,
     editLoading: false,
+    getCocktailLoading: false,
   },
   error: false,
 }
 
 export const cocktailsFromSlice = (state: RootState) => state.cocktails.cocktails;
 export const myCocktailsFromSlice = (state: RootState) => state.cocktails.myCocktails;
+export const cocktailFromSlice = (state: RootState) => state.cocktails.cocktail;
 
 const cocktailsSlice = createSlice({
   name: 'cocktails',
@@ -96,6 +108,19 @@ const cocktailsSlice = createSlice({
       })
       .addCase(publishCocktail.rejected, (state) => {
         state.loadings.editLoading = false;
+        state.error = true;
+      })
+      .addCase(getCocktail.pending, (state) => {
+        state.loadings.getCocktailLoading = true;
+        state.error = false;
+      })
+      .addCase(getCocktail.fulfilled, (state, {payload: cocktail}) => {
+        state.loadings.getCocktailLoading = false;
+        state.error = false;
+        state.cocktail = cocktail;
+      })
+      .addCase(getCocktail.rejected, (state) => {
+        state.loadings.getCocktailLoading = false;
         state.error = true;
       });
   }

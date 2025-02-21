@@ -16,7 +16,7 @@ const ToolBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{backgroundColor: 'rgba(44,38,38,0.98)'}}>
+      <AppBar position="static" sx={{backgroundColor: 'rgba(44,38,38,0.98)', paddingBottom: '10px'}}>
         <Container>
           <Toolbar
             sx={{
@@ -47,7 +47,7 @@ const ToolBar = () => {
                   backgroundImage: 'linear-gradient(to right, #f83600, #f9d423)',
                   WebkitBackgroundClip: 'text',
                   fontWeight: 'bold',
-                  fontSize: '40px',
+                  fontSize: '35px',
                   textDecoration: 'none',
                   transition: 'all 0.3s ease-in-out',
                   '&:hover': {
@@ -57,7 +57,7 @@ const ToolBar = () => {
                   },
                 }}
                 to={'/'}>
-                Cocktail
+                Cocktail builder
               </Typography>
             </Box>
             {user ? <UserMenu user={user}/> : <AnonymousUserMenu/>}

@@ -14,10 +14,13 @@ const NewCocktailContainer = () => {
   const createNewCocktail = async (newCocktail: ICocktailForm) => {
     if (user) {
       await dispatch(addCocktail({cocktail: newCocktail, token: user.token})).unwrap();
-      toast.success('Cocktail was successfully added and it is reviewed by moderator!');
+      if (user.role !== 'admin') {
+        toast.success('Cocktail was successfully added and it is reviewed by moderator!');
+      } else {
+        toast.warning('Cocktail was successfully added! If you want users to see your cocktail, you should publish it.');
+      }
       navigate('/');
     }
-    console.log(newCocktail);
   };
 
   return (

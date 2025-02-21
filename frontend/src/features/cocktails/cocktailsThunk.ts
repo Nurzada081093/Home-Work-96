@@ -56,3 +56,11 @@ export const publishCocktail = createAsyncThunk<void, {cocktailId: string, token
     await axiosRequest.patch(`/cocktails/${cocktailId}/togglePublished`, {headers: {'Authorization': token}});
   }
 );
+
+export const getCocktail = createAsyncThunk<ICocktail, string>(
+  'cocktails/getCocktail',
+  async (cocktailId) => {
+    const response = await axiosRequest(`/cocktails/${cocktailId}`);
+    return response.data || null;
+  }
+);

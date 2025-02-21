@@ -33,11 +33,24 @@ const UserMenu:React.FC<Props> = ({user}) => {
   };
 
   return (
-    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0'}}>
+    <Box sx={{display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      margin: '10px 0'}}>
       {user && (
-        <Typography sx={{fontSize: '20px'}}>
-          {user.displayName}
-        </Typography>
+        <Box sx={{marginLeft: '20px'}}>
+          <Typography sx={{fontSize: '23px'}}>
+            {user.displayName}
+          </Typography>
+          {user && user.role === 'admin' && (
+            <Typography
+              variant="caption"
+              gutterBottom sx={{ display: 'block', textAlign: 'end' }}
+            >
+              {user.role}
+            </Typography>
+          )}
+        </Box>
       )}
       <Button color='inherit' onClick={handleClick} sx={{
         marginLeft: '10px'

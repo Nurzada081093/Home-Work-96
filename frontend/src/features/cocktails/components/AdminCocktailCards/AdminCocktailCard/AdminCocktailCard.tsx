@@ -24,6 +24,10 @@ const AdminCocktailCard:React.FC<Props> = ({cocktail}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const getInformationCocktail = (id: string) => {
+    navigate(`/cocktail/${id}`);
+  };
+
   const deleteTheCocktail = async (cocktailId: string) => {
     if (user && user.role === 'admin') {
       await dispatch(deleteCocktail({cocktailId, token: user.token})).unwrap();
@@ -43,7 +47,12 @@ const AdminCocktailCard:React.FC<Props> = ({cocktail}) => {
   };
 
   return (
-    <Card sx={{ width: 320, margin: '30px', position: 'relative' }}>
+    <Card sx={{
+      width: 320,
+      margin: '30px',
+      position: 'relative'
+    }}
+    >
       {!cocktail.isPublished && (
         <CardCover
           className="gradient-cover"
@@ -65,6 +74,7 @@ const AdminCocktailCard:React.FC<Props> = ({cocktail}) => {
         </IconButton>
       </div>
       <AspectRatio
+        onClick={() => getInformationCocktail(cocktail._id)}
         minHeight="300px"
         maxHeight="500px"
         sx={{
@@ -88,16 +98,20 @@ const AdminCocktailCard:React.FC<Props> = ({cocktail}) => {
           justifyContent: 'space-around'
         }}
       >
+        {!cocktail.isPublished && (
+          <Button
+            sx={{width: '120px'}}
+            variant='solid'
+            color="primary"
+            onClick={() => publishTheCocktail(cocktail._id)}
+          >
+            Publish
+          </Button>
+        )}
         <Button
-          size="md"
-          variant='solid'
-          color="primary"
-          onClick={() => publishTheCocktail(cocktail._id)}
-        >
-          Publish
-        </Button>
-        <Button
-          size="md"
+          sx={{
+            width: cocktail.isPublished ? '100%' : '120px',
+          }}
           variant='solid'
           color="danger"
           onClick={() => deleteTheCocktail(cocktail._id)}

@@ -7,14 +7,16 @@ import Card from '@mui/joy/Card';
 import Typography from '@mui/joy/Typography';
 import Link from '@mui/joy/Link';
 import { apiUrl } from '../../../../../globalConstants.ts';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   cocktail: ICocktail;
 }
 
 const CocktailCard:React.FC<Props> = ({cocktail}) => {
+  const navigate = useNavigate();
   return cocktail.isPublished && (
-    <Box sx={{ minHeight: 350, margin: '20px'}}>
+    <Box sx={{ minHeight: 350, margin: '20px'}} onClick={() => navigate(`/cocktail/${cocktail._id}`)}>
       <Card
         variant="outlined"
         sx={(theme) => ({
